@@ -24,6 +24,8 @@ dependencies:
 
   # UI packages
   cupertino_icons: ^1.0.8
+  image_picker: ^1.1.2
+  form_validator: ^2.1.1
 
 dev_dependencies:
   flutter_test:

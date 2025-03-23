@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +33,6 @@ class ThemeState extends Equatable {
 }
 
 // BLoC
-@lazySingleton
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   final SharedPreferences _prefs;
   static const String _themeKey = 'theme_mode';

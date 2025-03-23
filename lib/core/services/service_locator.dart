@@ -4,7 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../network/network_info.dart';
-import 'service_locator.config.dart';
+import '../../presentation/blocs/auth/auth_bloc.dart';
+import '../../presentation/blocs/theme/theme_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -20,7 +21,9 @@ Future<void> setupServiceLocator() async {
   // Register app dependencies
   getIt.registerSingleton<NetworkInfo>(NetworkInfo(getIt<Connectivity>()));
   
-  // await $initGetIt(getIt);
+  // Register blocs
+  getIt.registerFactory<AuthBloc>(() => AuthBloc());
+  getIt.registerFactory<ThemeBloc>(() => ThemeBloc(getIt<SharedPreferences>()));
 }
 
 @module

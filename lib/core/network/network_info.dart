@@ -1,11 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:injectable/injectable.dart';
 
-@lazySingleton
 class NetworkInfo {
   final Connectivity _connectivity;
 
-  @injectable
   NetworkInfo(this._connectivity);
 
   Future<void> initialize() async {
