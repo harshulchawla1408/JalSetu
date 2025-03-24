@@ -11,8 +11,11 @@ import 'core/error/error_handler.dart';
 import 'core/network/network_info.dart';
 
 // Presentation imports 
-import 'presentation/pages/auth/login_page.dart';
-import 'presentation/pages/auth/register_page.dart';
+import 'presentation/pages/auth/account_type_page.dart';
+import 'presentation/pages/auth/phone_signup_page.dart';
+import 'presentation/pages/auth/aadhar_page.dart';
+import 'presentation/pages/auth/otp_page.dart';
+import 'presentation/pages/auth/success_page.dart';
 import 'presentation/pages/home/home_page.dart';
 import 'presentation/pages/profile/profile_page.dart';
 import 'presentation/blocs/auth/auth_bloc.dart';
@@ -31,11 +34,27 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/auth',
-      builder: (context, state) => const LoginPage(),
+      builder: (context, state) => const AccountTypePage(),
       routes: [
         GoRoute(
-          path: 'register',
-          builder: (context, state) => const RegisterPage(),
+          path: 'phone',
+          builder: (context, state) => PhoneSignupPage(
+            accountType: state.extra as AccountType,
+          ),
+        ),
+        GoRoute(
+          path: 'otp',
+          builder: (context, state) => OtpPage(
+            phoneNumber: state.extra as String,
+          ),
+        ),
+        GoRoute(
+          path: 'aadhar',
+          builder: (context, state) => const AadharPage(),
+        ),
+        GoRoute(
+          path: 'success',
+          builder: (context, state) => const SuccessPage(),
         ),
       ],
     ),
@@ -51,7 +70,7 @@ final GoRouter router = GoRouter(
   redirect: (context, state) {
     final authState = context.read<AuthBloc>().state;
     final isAuthenticated = authState is AuthAuthenticated;
-    final isAuthRoute = state.matchedLocation == '/auth' || state.matchedLocation == '/auth/register';
+    final isAuthRoute = state.matchedLocation.startsWith('/auth');
     final isHomePage = state.matchedLocation == '/';
 
     // Allow access to home page without authentication

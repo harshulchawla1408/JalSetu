@@ -65,40 +65,40 @@ class HomePage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const Spacer(),
-                  // Features Grid
-                  GridView.count(
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 1.5,
-                    children: [
-                      _buildFeatureCard(
-                        context,
-                        icon: Icons.water_drop,
-                        title: 'Water Tracking',
-                        description: 'Monitor your water usage',
-                      ),
-                      _buildFeatureCard(
-                        context,
-                        icon: Icons.analytics,
-                        title: 'Usage Analytics',
-                        description: 'View detailed statistics',
-                      ),
-                      _buildFeatureCard(
-                        context,
-                        icon: Icons.tips_and_updates,
-                        title: 'Smart Tips',
-                        description: 'Get water-saving advice',
-                      ),
-                      _buildFeatureCard(
-                        context,
-                        icon: Icons.notifications,
-                        title: 'Alerts',
-                        description: 'Stay informed',
-                      ),
-                    ],
-                  ),
+                  // // Features Grid
+                  // GridView.count(
+                  //   shrinkWrap: true,
+                  //   crossAxisCount: 2,
+                  //   mainAxisSpacing: 16,
+                  //   crossAxisSpacing: 16,
+                  //   childAspectRatio: 1.5,
+                  //   children: [
+                  //     _buildFeatureCard(
+                  //       context,
+                  //       icon: Icons.water_drop,
+                  //       title: 'Water Tracking',
+                  //       description: 'Monitor your water usage',
+                  //     ),
+                  //     _buildFeatureCard(
+                  //       context,
+                  //       icon: Icons.analytics,
+                  //       title: 'Usage Analytics',
+                  //       description: 'View detailed statistics',
+                  //     ),
+                  //     _buildFeatureCard(
+                  //       context,
+                  //       icon: Icons.tips_and_updates,
+                  //       title: 'Smart Tips',
+                  //       description: 'Get water-saving advice',
+                  //     ),
+                  //     _buildFeatureCard(
+                  //       context,
+                  //       icon: Icons.notifications,
+                  //       title: 'Alerts',
+                  //       description: 'Stay informed',
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(height: 32),
                   // Get Started Button
                   CustomButton(
