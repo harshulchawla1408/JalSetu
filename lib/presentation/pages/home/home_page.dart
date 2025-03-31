@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -124,6 +125,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.dispose();
   }
 
+  Future<void> _launchWaterQualityCheck() async {
+    final Uri url = Uri.parse('https://waterqualityprediction-lyart.vercel.app/');
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not launch water quality check website'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,6 +155,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     _buildStatsSection(),
                     _buildReportWasteCard(),
                     _buildRecyclingCard(),
+                    _buildWaterQualityButton(),
                   ],
                 ),
               ),
@@ -152,14 +168,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   Widget _buildHeader() {
     return Container(
-      height: 180,
+      height: 200,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           colors: [
             Colors.blue.shade400,
             Colors.blue.shade600,
+            Colors.blue.shade800,
           ],
         ),
       ),
@@ -170,31 +187,92 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               painter: WavePainter(_waveController),
             ),
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: AnimatedTextKit(
-                animatedTexts: [
-                  TypewriterAnimatedText(
-                    'Jal Setu — Connecting Humanity with Life Under Water',
-                    textStyle: GoogleFonts.poppins(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black.withOpacity(0.3),
-                          offset: const Offset(0, 2),
-                          blurRadius: 4,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.15),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.2),
+                        blurRadius: 20,
+                        spreadRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.3),
+                          blurRadius: 15,
+                          spreadRadius: 3,
                         ),
                       ],
                     ),
-                    speed: const Duration(milliseconds: 50),
+                    child: const Icon(
+                      Icons.water_drop,
+                      size: 40,
+                      color: Colors.white,
+                    ),
                   ),
-                ],
-                isRepeatingAnimation: false,
-                displayFullTextOnTap: true,
-              ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Jal Setu',
+                        style: GoogleFonts.poppins(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          letterSpacing: 1,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.2),
+                              offset: const Offset(0, 2),
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      AnimatedTextKit(
+                        animatedTexts: [
+                          TypewriterAnimatedText(
+                            'Connecting Humanity with Life Under Water',
+                            textStyle: GoogleFonts.poppins(
+                              fontSize: 16,
+                              color: Colors.white.withOpacity(0.9),
+                              letterSpacing: 0.5,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  offset: const Offset(0, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            ),
+                            speed: const Duration(milliseconds: 50),
+                          ),
+                        ],
+                        isRepeatingAnimation: false,
+                        displayFullTextOnTap: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -554,6 +632,50 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             const Expanded(
               child: Text(
                 'See How Waste is Recycled',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const Icon(Icons.arrow_forward),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWaterQualityButton() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      child: ElevatedButton(
+        onPressed: _launchWaterQualityCheck,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue.shade50,
+          foregroundColor: Colors.blue.shade700,
+          padding: const EdgeInsets.all(24),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          elevation: 0,
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade100,
+                shape: BoxShape.circle,
+              ),
+              child: const Text(
+                '💧',
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+            const SizedBox(width: 16),
+            const Expanded(
+              child: Text(
+                'Check Your Water Quality!',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
